@@ -21,3 +21,4 @@ services:
       - PROTOCOL_VERSION=757
       - MAX_PLAYERS=20
       - ONLINE_PLAYERS=3
+      - WHITELIST_ENABLED=true
