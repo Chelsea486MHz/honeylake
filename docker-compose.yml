@@ -1,5 +1,6 @@
 networks:
   network_cve-2021-44228-minecraft:
+  network_cve-2025-59287:
 
 services:
   cve-2021-44228-minecraft:
@@ -22,3 +23,34 @@ services:
       - MAX_PLAYERS=20
       - ONLINE_PLAYERS=3
       - WHITELIST_ENABLED=true
+
+  cve-2025-59287-backend:
+    build:
+      context: ./cve-2025-59287
+    container_name: cve-2025-59287-backend
+    restart: always
+    volumes:
+      - ./samples/cve-2025-59287:/samples
+    networks:
+      network_cve-2025-59287:
+    environment:
+      - LISTEN_HOST=0.0.0.0
+      - LISTEN_PORT=8081
+      - SERVER_NAME=WSUS-SRV-01
+      - IIS_VERSION=10.0
+      - ASPNET_VERSION=4.0.30319
+      - SERVER_VERSION=10.0.14393.0
+      - COOKIE_EXPIRATION=2025-12-31T23:59:59Z
+
+  cve-2025-59287-nginx:
+    build:
+      context: ./cve-2025-59287/nginx
+    container_name: cve-2025-59287-nginx
+    ports:
+      - "8530:8530"
+      - "8531:8531"
+    restart: always
+    depends_on:
+      - cve-2025-59287-backend
+    networks:
+      - network_cve-2025-59287

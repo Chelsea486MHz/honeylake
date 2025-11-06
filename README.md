@@ -3,6 +3,7 @@
 
 When you have that many honeypots you might as well call it a lake.
 
-| CVE | Port | Status |
-|-----|------|--------|
-| CVE-2021-44228 | 25565 | Implemented |
+| CVE | Port | Status | Description |
+|-----|------|--------|-------------|
+| CVE-2021-44228 | 25565 | Implemented | Log4Shell (Minecraft server) |
+| CVE-2025-59287 | 8530/8531 | Implemented | WSUS RCE |
