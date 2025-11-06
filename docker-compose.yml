@@ -1,5 +1,6 @@
 networks:
   network_cve-2021-44228-minecraft:
+  network_cve-2021-44228-solr:
   network_cve-2025-59287:
 
 services:
@@ -23,6 +24,34 @@ services:
       - MAX_PLAYERS=20
       - ONLINE_PLAYERS=3
       - WHITELIST_ENABLED=true
+  cve-2021-44228-solr:
+    build:
+      context: ./cve-2021-44228-solr
+    container_name: cve-2021-44228-solr
+    restart: always
+    volumes:
+      - ./samples/cve-2021-44228-solr:/samples
+    networks:
+      - network_cve-2021-44228-solr
+    environment:
+      - LISTEN_HOST=0.0.0.0
+      - LISTEN_PORT=8000
+      - SOLR_VERSION=7.4.0
+      - APACHE_VERSION=2.4.41
+      - COLLECTION_NAME=collection1
+
+  cve-2021-44228-solr-nginx:
+    build:
+      context: ./cve-2021-44228-solr/nginx
+    container_name: cve-2021-44228-solr-nginx
+    ports:
+      - "8080:80"
+      - "8443:443"
+    restart: always
+    depends_on:
+      - cve-2021-44228-solr
+    networks:
+      - network_cve-2021-44228-solr
 
   cve-2025-59287-backend:
     build:
