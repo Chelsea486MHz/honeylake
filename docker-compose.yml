@@ -2,6 +2,7 @@ networks:
   network_cve-2021-44228-minecraft:
   network_cve-2021-44228-solr:
   network_cve-2025-59287:
+  network_cve-2023-1389:
 
 services:
   cve-2021-44228-minecraft:
@@ -16,14 +17,14 @@ services:
     networks:
       - network_cve-2021-44228-minecraft
     environment:
-      - LISTEN_HOST=0.0.0.0
-      - LISTEN_PORT=25565
-      - SERVER_MOTD=A Minecraft Server
-      - SERVER_VERSION=1.18.0
-      - PROTOCOL_VERSION=757
-      - MAX_PLAYERS=20
-      - ONLINE_PLAYERS=3
-      - WHITELIST_ENABLED=true
+      LISTEN_HOST: "0.0.0.0"
+      LISTEN_PORT: 25565
+      SERVER_MOTD: "A Minecraft Server"
+      SERVER_VERSION: "1.18.0"
+      PROTOCOL_VERSION: 757
+      MAX_PLAYERS: 20
+      ONLINE_PLAYERS: 3
+      WHITELIST_ENABLED: true
   cve-2021-44228-solr:
     build:
       context: ./cve-2021-44228-solr
@@ -34,11 +35,11 @@ services:
     networks:
       - network_cve-2021-44228-solr
     environment:
-      - LISTEN_HOST=0.0.0.0
-      - LISTEN_PORT=8000
-      - SOLR_VERSION=7.4.0
-      - APACHE_VERSION=2.4.41
-      - COLLECTION_NAME=collection1
+      LISTEN_HOST: "0.0.0.0"
+      LISTEN_PORT: 8000
+      SOLR_VERSION: "7.4.0"
+      APACHE_VERSION: "2.4.41"
+      COLLECTION_NAME: "collection1"
 
   cve-2021-44228-solr-nginx:
     build:
@@ -63,13 +64,13 @@ services:
     networks:
       network_cve-2025-59287:
     environment:
-      - LISTEN_HOST=0.0.0.0
-      - LISTEN_PORT=8081
-      - SERVER_NAME=WSUS-SRV-01
-      - IIS_VERSION=10.0
-      - ASPNET_VERSION=4.0.30319
-      - SERVER_VERSION=10.0.14393.0
-      - COOKIE_EXPIRATION=2025-12-31T23:59:59Z
+      LISTEN_HOST: "0.0.0.0"
+      LISTEN_PORT: 8081
+      SERVER_NAME: "WSUS-SRV-01"
+      IIS_VERSION: "10.0"
+      ASPNET_VERSION: "4.0.30319"
+      SERVER_VERSION: "10.0.14393.0"
+      COOKIE_EXPIRATION: "2025-12-31T23:59:59Z"
 
   cve-2025-59287-nginx:
     build:
@@ -83,3 +84,31 @@ services:
       - cve-2025-59287-backend
     networks:
       - network_cve-2025-59287
+
+  cve-2023-1389-backend:
+    build:
+      context: ./cve-2023-1389
+    container_name: cve-2023-1389-backend
+    restart: always
+    volumes:
+      - ./samples/cve-2023-1389:/samples
+    networks:
+      - network_cve-2023-1389
+    environment:
+      LISTEN_HOST: "0.0.0.0"
+      LISTEN_PORT: "8082"
+      ROUTER_MODEL: "Archer AX21"
+      FIRMWARE_VERSION: "1.1.0 Build 20211105"
+
+  cve-2023-1389-nginx:
+    build:
+      context: ./cve-2023-1389/nginx
+    container_name: cve-2023-1389-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    depends_on:
+      - cve-2023-1389-backend
+    networks:
+      - network_cve-2023-1389
