@@ -7,7 +7,8 @@ networks:
 services:
   cve-2021-44228-minecraft:
     build:
-      context: ./cve-2021-44228-minecraft
+      context: .
+      dockerfile: cve-2021-44228-minecraft/Dockerfile
     container_name: cve-2021-44228-minecraft
     ports:
       - "25565:25565"
@@ -27,7 +28,8 @@ services:
       WHITELIST_ENABLED: true
   cve-2021-44228-solr:
     build:
-      context: ./cve-2021-44228-solr
+      context: .
+      dockerfile: cve-2021-44228-solr/Dockerfile
     container_name: cve-2021-44228-solr
     restart: always
     volumes:
@@ -56,7 +58,8 @@ services:
 
   cve-2025-59287-backend:
     build:
-      context: ./cve-2025-59287
+      context: .
+      dockerfile: cve-2025-59287/Dockerfile
     container_name: cve-2025-59287-backend
     restart: always
     volumes:
@@ -87,7 +90,8 @@ services:
 
   cve-2023-1389-backend:
     build:
-      context: ./cve-2023-1389
+      context: .
+      dockerfile: cve-2023-1389/Dockerfile
     container_name: cve-2023-1389-backend
     restart: always
     volumes:

@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+
+# Python
+__pycache__
+*.pyc
+*.egg-info
+.pytest_cache
+
+# Samples directory
+samples/
+
+# Temp directory
+honeylake_common_pkg/
+
+# Docker
+docker-compose*.yml
+Dockerfile*
+
+# OS
+.DS_Store
