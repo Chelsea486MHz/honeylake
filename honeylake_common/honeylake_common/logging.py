@@ -30,7 +30,12 @@ def save_exploit_sample(
     samples_dir = Path(samples_dir)
     samples_dir.mkdir(exist_ok=True, parents=True)
 
-    timestamp = datetime.utcnow().isoformat() + 'Z'
+    timestamp_dt = datetime.utcnow()
+    timestamp = timestamp_dt.isoformat() + 'Z'
+
+    timestamp_safe = timestamp_dt.strftime('%Y%m%d-%H%M%S-') + str(timestamp_dt.microsecond).zfill(6)
+
+    client_ip_safe = client_ip.replace('.', '_').replace(':', '_')
 
     body_checksum = compute_sha256(body)
     body_encoded = encode_base64(body)
@@ -82,7 +87,7 @@ def save_exploit_sample(
         if confidence:
             sample_data["analysis"]["confidence"] = confidence
 
-    filename = f"{body_checksum}.json"
+    filename = f"{client_ip_safe}-{timestamp_safe}.json"
     filepath = samples_dir / filename
 
     try:
